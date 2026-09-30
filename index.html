@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#1E7A53">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="نجوم البيت">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>نجوم البيت</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<!-- 1. تحميل -->
+<section class="screen center" id="scrLoading">
+  <div class="splash"><div class="logo" aria-hidden="true">⭐</div><div class="nm">نجوم البيت</div><div class="spinner" role="status" aria-label="جارٍ التحميل"></div></div>
+</section>
+
+<!-- 2. تسجيل الدخول -->
+<section class="screen center" id="scrAuth" hidden>
+  <div class="auth">
+    <div class="head"><div class="logo" aria-hidden="true">⭐</div><h1>نجوم البيت</h1><p>روتين الأطفال ومهام البيت في مكان واحد</p></div>
+    <form class="panel" id="authForm" novalidate>
+      <div class="seg" role="tablist"><button type="button" class="on" data-mode="in">تسجيل الدخول</button><button type="button" data-mode="up">حساب جديد</button></div>
+      <div class="fld" id="fName" hidden><label for="aName">اسمك</label><input class="in" id="aName" autocomplete="name" placeholder="مثال: أبو محمد"></div>
+      <div class="fld"><label for="aEmail">البريد الإلكتروني</label><input class="in" id="aEmail" type="email" inputmode="email" autocomplete="email" dir="ltr"></div>
+      <div class="fld"><label for="aPass">كلمة المرور</label><input class="in" id="aPass" type="password" autocomplete="current-password" dir="ltr"></div>
+      <div class="msg-err" id="authErr" role="alert"></div>
+      <button class="btn primary block" type="submit" id="authSubmit">دخول</button>
+      <button class="link" type="button" id="forgotBtn">نسيت كلمة المرور؟</button>
+    </form>
+  </div>
+</section>
+
+<!-- 3. إنشاء عائلة أو الانضمام -->
+<section class="screen center" id="scrOnboard" hidden>
+  <div class="auth">
+    <div class="head"><div class="logo" aria-hidden="true">🏠</div><h1 id="obHello">أهلاً بك</h1><p>ابدأ بإنشاء عائلتك، أو انضم لعائلة موجودة برمز الدعوة.</p></div>
+    <div class="choice" id="obChoice">
+      <button class="opt" type="button" data-ob="create"><span class="e" aria-hidden="true">✨</span><span><b>إنشاء عائلة جديدة</b><span>أضف أبناءك ومهامهم وادعُ الطرف الآخر لاحقاً</span></span></button>
+      <button class="opt" type="button" data-ob="join"><span class="e" aria-hidden="true">🔑</span><span><b>الانضمام برمز دعوة</b><span>إذا أنشأ الأب أو الأم العائلة وأرسل لك الرمز</span></span></button>
+    </div>
+    <form class="panel" id="obCreate" hidden>
+      <div class="fld"><label for="obFam">اسم العائلة</label><input class="in" id="obFam" placeholder="مثال: عائلة الجودر"></div>
+      <div class="msg-err" id="obCreateErr" role="alert"></div>
+      <button class="btn primary block" type="submit">إنشاء العائلة</button>
+      <button class="link" type="button" data-ob="back">رجوع</button>
+    </form>
+    <form class="panel" id="obJoin" hidden>
+      <div class="fld"><label for="obCode">رمز الدعوة</label><input class="in" id="obCode" maxlength="6" autocapitalize="characters" autocomplete="off" dir="ltr" style="text-align:center;letter-spacing:.3em;font-size:22px;font-weight:800"></div>
+      <div class="msg-err" id="obJoinErr" role="alert"></div>
+      <button class="btn primary block" type="submit">انضمام</button>
+      <button class="link" type="button" data-ob="back">رجوع</button>
+    </form>
+    <button class="link" type="button" id="obSignOut">تسجيل الخروج</button>
+  </div>
+</section>
+
+<!-- 4. لوحة المهام -->
+<div class="app screen" id="scrBoard" hidden>
+  <header class="top">
+    <div class="date">
+      <div class="brand"><span aria-hidden="true">⭐</span> <span id="famName">نجوم البيت</span></div>
+      <h1 id="dayTitle">…</h1>
+      <div class="sub"><span id="greg"></span><span id="clock"></span></div>
+    </div>
+    <div class="tools">
+      <div class="daynav" role="group" aria-label="اختيار اليوم">
+        <button class="btn" id="prevDay" aria-label="اليوم السابق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+        <button class="btn on" id="todayBtn">اليوم</button>
+        <button class="btn" id="nextDay" aria-label="اليوم التالي"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+      </div>
+      <button class="btn honor-btn" id="honorBtn" hidden><span aria-hidden="true">🏆</span><span class="lbl-t">لوحة الشرف</span></button>
+      <button class="btn primary" id="parentBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><span class="lbl-t">لوحة الوالدين</span></button>
+    </div>
+  </header>
+  <div class="notice" id="notice" hidden></div>
+  <main class="board" id="board" aria-live="polite"></main>
+</div>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="cele" id="cele" aria-live="assertive"><div class="card"><div class="em" id="celeEm">👏</div><h3 id="celeT"></h3><p id="celeP"></p><div class="plus" id="celePlus" hidden></div></div></div>
+<div class="toast" id="toast"></div>
+<div id="modalRoot"></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
