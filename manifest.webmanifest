@@ -1,7 +1,7 @@
 {
-  "name": "نجوم البيت",
-  "short_name": "نجوم البيت",
-  "description": "روتين الأطفال ومهام البيت مع نقاط ولوحة شرف",
+  "name": "همّة",
+  "short_name": "همّة",
+  "description": "معاً نجعل بيتنا مرتباً ونظيفاً",
   "lang": "ar", "dir": "rtl",
   "start_url": "./", "scope": "./",
   "display": "standalone", "orientation": "any",

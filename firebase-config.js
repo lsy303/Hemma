@@ -1,10 +1,9 @@
-// الصق هنا إعدادات مشروع Firebase الخاص بك (من Firebase Console ← Project settings ← Your apps ← Web app).
-// هذه القيم ليست سرية؛ الحماية الفعلية تأتي من قواعد الأمان في ملف firestore.rules.
+// إعدادات مشروع Firebase (Hemma). هذه القيم ليست سرية؛ الحماية من قواعد الأمان في Firestore.
 export const firebaseConfig = {
-  apiKey: "PUT_YOUR_API_KEY",
-  authDomain: "PUT_YOUR_PROJECT.firebaseapp.com",
-  projectId: "PUT_YOUR_PROJECT",
-  storageBucket: "PUT_YOUR_PROJECT.appspot.com",
-  messagingSenderId: "PUT_SENDER_ID",
-  appId: "PUT_APP_ID"
+  apiKey: "AIzaSyC4wv8TdU_gYFaT9bpPQkdszjm3STcVthw",
+  authDomain: "hemma-422bb.firebaseapp.com",
+  projectId: "hemma-422bb",
+  storageBucket: "hemma-422bb.firebasestorage.app",
+  messagingSenderId: "263870495668",
+  appId: "1:263870495668:web:1505fd53e222779c4410e1"
 };
