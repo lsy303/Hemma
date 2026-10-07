@@ -1,5 +1,5 @@
 // Service worker: keeps the app shell available offline. Firebase traffic is never cached.
-const CACHE = "hemma-v15";
+const CACHE = "hemma-v17";
 self.addEventListener("install", e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(["./", "index.html", "app.js", "app.css", "firebase-config.js", "manifest.webmanifest", "icons/icon-192.png"]))); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", e => {
