@@ -92,6 +92,34 @@
 <div class="toast" id="toast"></div>
 <div id="modalRoot"></div>
 
+<script>
+/* حارس التشغيل: إذا ما اشتغل التطبيق يعرض سبب واضح بدل شاشة التحميل */
+(function(){
+  var errs=[];
+  function rec(msg,file,line){errs.push({msg:String(msg||""),file:String(file||""),line:line||0})}
+  window.addEventListener("error",function(e){if(e&&e.message)rec(e.message,e.filename,e.lineno)},true);
+  window.addEventListener("unhandledrejection",function(e){var r=e&&e.reason;rec(r&&(r.message||r.code)||r,"",0)});
+  function show(){
+    var ld=document.getElementById("scrLoading");
+    if(!ld||ld.hidden||document.getElementById("bootErr"))return;
+    var cfg=null,other=null;
+    for(var i=0;i<errs.length;i++){var x=errs[i];if(/firebase-config\.js/.test(x.file)){cfg=x;break}if(!other&&/SyntaxError|import|module|Failed to fetch/i.test(x.msg))other=x}
+    var t,d;
+    if(cfg){t="⚠️ خطأ في ملف الإعدادات";d="في ملف <b dir=\"ltr\">firebase-config.js</b>"+(cfg.line?" عند السطر <b>"+cfg.line+"</b> أو السطر اللي قبله":"")+".<br>تأكد من الفواصل <b>,</b> في آخر كل سطر، وأن كل قيمة بين علامتي تنصيص \"\".";}
+    else if(!navigator.onLine){t="📡 ما فيه اتصال بالإنترنت";d="تأكد من الاتصال وحاول مرة ثانية.";}
+    else if(other){t="⚠️ تعذّر تشغيل التطبيق";d="صار خطأ أثناء التحميل. جرّب إعادة المحاولة، وإذا تكرر تواصل معنا.";}
+    else{t="⏳ التحميل أخذ وقت أطول من العادة";d="غالباً الاتصال بطيء. جرّب إعادة المحاولة.";}
+    var info=(cfg||other)?'<code dir="ltr" style="display:block;margin-top:10px;font-size:11px;opacity:.7;word-break:break-all">'+((cfg||other).msg.replace(/[<>&]/g,""))+'</code>':"";
+    var box=document.createElement("div");box.id="bootErr";
+    box.style.cssText="max-width:340px;margin:18px auto 0;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(127,127,127,.35);text-align:center;line-height:1.8;font-size:14px";
+    box.innerHTML='<div style="font-weight:800;font-size:17px;margin-bottom:6px">'+t+'</div><div>'+d+'</div>'+info+'<button type="button" class="btn primary" style="margin-top:12px" onclick="location.reload()">↻ إعادة المحاولة</button>';
+    var sp=ld.querySelector(".spinner");if(sp)sp.style.display="none";
+    (ld.querySelector(".splash")||ld).appendChild(box);
+  }
+  setTimeout(show,12000);
+  window.addEventListener("error",function(e){if(e&&/firebase-config\.js/.test(e.filename||""))setTimeout(show,300)},true);
+})();
+</script>
 <script type="module" src="app.js"></script>
 </body>
 </html>

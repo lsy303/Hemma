@@ -49,3 +49,8 @@
 .pts-row .pn{flex:1;font-weight:700;min-width:0}
 .pts-row b{color:#B07D00;font-size:15px;white-space:nowrap}
 .pts-row .btn{padding:5px 12px;font-size:13px}
+.hm-tab.warn b{color:#B3263A}
+.hm-tab.warn.on{border-color:#E08A95;background:#FFF1F2}
+.hm-row.alert{border-color:#F0B8C0;background:#FFF8F8}
+.hm-flags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.hm-act{display:flex;gap:6px;flex-wrap:wrap}

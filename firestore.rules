@@ -29,7 +29,8 @@ service cloud.firestore {
 
     // ===== المستخدمون =====
     match /users/{uid} {
-      allow read, write: if signedIn() && request.auth.uid == uid;
+      // صاحب الحساب، والمدير (لعرض الإيميلات وربط الحسابات)
+      allow read, write: if (signedIn() && request.auth.uid == uid) || isAdmin();
     }
 
     // ===== رموز الدعوة =====
@@ -65,7 +66,7 @@ service cloud.firestore {
       // ----- الأعضاء (الأب/الأم) -----
       match /members/{uid} {
         allow read: if isMember(fid) || isAdmin();
-        allow create: if signedIn() && request.auth.uid == uid && (
+        allow create: if isAdmin() || (signedIn() && request.auth.uid == uid && (
             // صاحب العائلة يضيف نفسه بعد الإنشاء
             get(famPath(fid)).data.ownerUid == uid
             // أو ينضم برمز دعوة صالح لنفس العائلة
@@ -73,9 +74,9 @@ service cloud.firestore {
                 && exists(/databases/$(database)/documents/invites/$(request.resource.data.code))
                 && get(/databases/$(database)/documents/invites/$(request.resource.data.code)).data.familyId == fid
                 && get(/databases/$(database)/documents/invites/$(request.resource.data.code)).data.expiresAt > request.time)
-          );
-        allow update: if signedIn() && request.auth.uid == uid;
-        allow delete: if signedIn() && (request.auth.uid == uid || isMember(fid));
+          ));
+        allow update: if isAdmin() || (signedIn() && request.auth.uid == uid);
+        allow delete: if isAdmin() || (signedIn() && (request.auth.uid == uid || isMember(fid)));
       }
 
       // ----- سجل الأيام (المهام والنقاط) -----
