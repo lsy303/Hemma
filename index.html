@@ -117,6 +117,8 @@
     (ld.querySelector(".splash")||ld).appendChild(box);
   }
   setTimeout(show,12000);
+  /* لما ينزل تحديث جديد: إعادة تحميل مرة وحدة عشان تشتغل النسخة الجديدة على طول */
+  try{if("serviceWorker"in navigator){var had=!!navigator.serviceWorker.controller,rl=false;navigator.serviceWorker.addEventListener("controllerchange",function(){if(had&&!rl){rl=true;location.reload()}})}}catch(_){}
   window.addEventListener("error",function(e){if(e&&/firebase-config\.js/.test(e.filename||""))setTimeout(show,300)},true);
 })();
 </script>
