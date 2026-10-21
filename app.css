@@ -62,3 +62,8 @@
 .pod.tie .pn{font-size:16px}
 .tie-b{font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap}
 .rk.tie{box-shadow:inset 3px 0 0 var(--gold)}
+.hm-prev{display:flex;flex-direction:column;gap:6px;text-align:center;background:#FFF4E5;border:1.5px solid #F2C27A;color:#5B3B00;border-radius:16px;padding:14px 16px;margin-bottom:12px;line-height:1.7}
+.hm-prev b{font-size:15px}
+.hm-prev span{font-size:14px}
+.hm-prev .hm-cta{margin-top:4px}
+.hm-prev .btn{text-decoration:none;justify-content:center}
