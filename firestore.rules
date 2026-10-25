@@ -26,11 +26,34 @@ service cloud.firestore {
             && request.time < f.createdAt + duration.value(trialDays(), 'd'));
     }
     function changed() { return request.resource.data.diff(resource.data).affectedKeys(); }
+    // التجربة المجانية مرة وحدة لكل إيميل
+    function myEmail() { return request.auth.token.email.lower(); }
+    function emailPath() { return /databases/$(database)/documents/emails/$(myEmail()); }
+    function trialUsed() {
+      return request.auth.token.email != null && exists(emailPath())
+        && get(emailPath()).data.get('trialUsed', false) == true;
+    }
 
     // ===== المستخدمون =====
     match /users/{uid} {
       // صاحب الحساب، والمدير (لعرض الإيميلات وربط الحسابات)
       allow read, write: if (signedIn() && request.auth.uid == uid) || isAdmin();
+    }
+
+    // ===== سجل الإيميلات (يبقى حتى لو انحذف الحساب، عشان نكشف التسجيل من جديد بنفس الإيميل) =====
+    match /emails/{e} {
+      allow get: if isAdmin()
+        || (signedIn() && request.auth.token.email != null && request.auth.token.email.lower() == e);
+      allow list: if isAdmin();
+      allow create: if signedIn() && request.auth.token.email != null
+        && request.auth.token.email.lower() == e
+        && request.resource.data.uid == request.auth.uid;
+      allow update: if isAdmin()
+        || (signedIn() && request.auth.token.email != null && myEmail() == e
+            && resource.data.uid == request.auth.uid
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['trialUsed'])
+            && request.resource.data.trialUsed == true);
+      allow delete: if isAdmin();
     }
 
     // ===== رموز الدعوة =====
@@ -48,6 +71,7 @@ service cloud.firestore {
 
       // عائلة جديدة: تبدأ غير مفعّلة، وتاريخ الإنشاء من السيرفر (بداية التجربة)
       allow create: if signedIn()
+        && (isAdmin() || !trialUsed())
         && request.resource.data.ownerUid == request.auth.uid
         && request.resource.data.active == false
         && request.resource.data.createdAt == request.time;
@@ -61,7 +85,7 @@ service cloud.firestore {
                   && !changed().hasAny(['active', 'createdAt', 'ownerEmail']))
            ));
 
-      allow delete: if isMember(fid) && resource.data.ownerUid == request.auth.uid;
+      allow delete: if isAdmin() || (isMember(fid) && resource.data.ownerUid == request.auth.uid);
 
       // ----- الأعضاء (الأب/الأم) -----
       match /members/{uid} {
@@ -81,8 +105,9 @@ service cloud.firestore {
 
       // ----- سجل الأيام (المهام والنقاط) -----
       match /days/{day} {
-        allow read, create, update: if isMember(fid) && famOK(get(famPath(fid)).data);
-        allow delete: if isMember(fid);
+        allow read: if isAdmin() || (isMember(fid) && famOK(get(famPath(fid)).data));
+        allow create, update: if isMember(fid) && famOK(get(famPath(fid)).data);
+        allow delete: if isAdmin() || isMember(fid);
       }
     }
   }
