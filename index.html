@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <title>همّة</title>
 <link rel="stylesheet" href="app.css">
-<script>window.hmZoom=function(){var m="auto";try{m=localStorage.getItem("hm_zoom")||"auto"}catch(e){}var w=innerWidth,z=1;if(m==="auto"){var tv=/\b(TV|AFT\w*|BRAVIA|Web0S|webOS|Tizen|SMART-TV|SmartTV|GoogleTV|CrKey)\b/i.test(navigator.userAgent);if(w>=1600&&(tv||matchMedia("(hover:none)").matches||w>=2300))z=Math.min(2.4,w/1300)}else z=parseFloat(m)||1;document.documentElement.style.zoom=z>1.01?String(Math.round(z*100)/100):""};hmZoom();addEventListener("resize",hmZoom);</script>
+<script>window.hmZoom=function(){var m="auto";try{m=localStorage.getItem("hm_zoom")||"auto"}catch(e){}var w=innerWidth,z=1;if(m==="auto"){var tv=/\b(TV|AFT\w*|BRAVIA|Web0S|webOS|Tizen|SMART-TV|SmartTV|GoogleTV|CrKey)\b/i.test(navigator.userAgent);if(w>=1600&&(tv||matchMedia("(hover:none)").matches||w>=2300))z=Math.min(2.4,w/1300)}else z=parseFloat(m)||1;var H=document.documentElement;H.style.zoom=z>1.01?String(Math.round(z*100)/100):"";H.classList.toggle("hm-big",z>1.01||/\b(TV|AFT\w*|BRAVIA|Web0S|webOS|Tizen|SMART-TV|SmartTV|GoogleTV|CrKey)\b/i.test(navigator.userAgent))};hmZoom();addEventListener("resize",hmZoom);window.hmTheme=function(){var t="";try{t=localStorage.getItem("hm_theme")||""}catch(e){}if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);else document.documentElement.removeAttribute("data-theme")};hmTheme();</script>
 </head>
 <body>
 

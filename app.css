@@ -89,3 +89,4 @@
 .hm-gs{display:flex;gap:4px;background:rgba(0,0,0,.05);border-radius:12px;padding:3px}.hm-gs button{border:0;background:transparent;border-radius:9px;padding:6px 10px;font:inherit;font-size:13px;font-weight:700;color:inherit;opacity:.65;cursor:pointer;white-space:nowrap}.hm-gs button.on{background:var(--card,#fff);opacity:1;box-shadow:0 1px 4px rgba(0,0,0,.12)}
 
 .hm-zoom{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line,rgba(0,0,0,.12))}
+html.hm-big,html.hm-big body{height:auto;overflow-y:auto}.hm-big .app{height:auto;min-height:100%}.hm-big .board{flex:none;overflow-y:visible;align-items:start}.hm-big .col{min-height:0}.hm-big .tasks{flex:none;overflow:visible}
