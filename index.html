@@ -43,7 +43,7 @@
     <div class="head"><div class="logo" aria-hidden="true">🏠</div><h1 id="obHello">أهلاً بك</h1><p>ابدأ بإنشاء عائلتك، أو انضم لعائلة موجودة برمز الدعوة.</p></div>
     <div class="choice" id="obChoice">
       <button class="opt" type="button" data-ob="create"><span class="e" aria-hidden="true">✨</span><span><b>إنشاء عائلة جديدة</b><span>أضف أبناءك ومهامهم وادعُ الطرف الآخر لاحقاً</span></span></button>
-      <button class="opt" type="button" data-ob="join"><span class="e" aria-hidden="true">🔑</span><span><b>الانضمام برمز دعوة</b><span>إذا أنشأ الأب أو الأم العائلة وأرسل لك الرمز</span></span></button>
+      <button class="opt" type="button" data-ob="join"><span class="e" aria-hidden="true">🔑</span><span><b>الانضمام برمز دعوة</b><span>إذا أنشأ الأب أو الأم العائلة وأرسل إليك الرمز</span></span></button>
     </div>
     <form class="panel" id="obCreate" hidden>
       <div class="fld"><label for="obFam">اسم العائلة</label><input class="in" id="obFam" placeholder="مثال: عائلة الجودر"></div>
@@ -96,7 +96,7 @@
 <div id="modalRoot"></div>
 
 <script>
-/* حارس التشغيل: إذا ما اشتغل التطبيق يعرض سبب واضح بدل شاشة التحميل */
+/* boot guard */
 (function(){
   var errs=[];
   function rec(msg,file,line){errs.push({msg:String(msg||""),file:String(file||""),line:line||0})}
@@ -108,10 +108,10 @@
     var cfg=null,other=null;
     for(var i=0;i<errs.length;i++){var x=errs[i];if(/firebase-config\.js/.test(x.file)){cfg=x;break}if(!other&&/SyntaxError|import|module|Failed to fetch/i.test(x.msg))other=x}
     var t,d;
-    if(cfg){t="⚠️ خطأ في ملف الإعدادات";d="في ملف <b dir=\"ltr\">firebase-config.js</b>"+(cfg.line?" عند السطر <b>"+cfg.line+"</b> أو السطر اللي قبله":"")+".<br>تأكد من الفواصل <b>,</b> في آخر كل سطر، وأن كل قيمة بين علامتي تنصيص \"\".";}
-    else if(!navigator.onLine){t="📡 ما فيه اتصال بالإنترنت";d="تأكد من الاتصال وحاول مرة ثانية.";}
-    else if(other){t="⚠️ تعذّر تشغيل التطبيق";d="صار خطأ أثناء التحميل. جرّب إعادة المحاولة، وإذا تكرر تواصل معنا.";}
-    else{t="⏳ التحميل أخذ وقت أطول من العادة";d="غالباً الاتصال بطيء. جرّب إعادة المحاولة.";}
+    if(cfg){t="⚠️ خطأ في ملف الإعدادات";d="في ملف <b dir=\"ltr\">firebase-config.js</b>"+(cfg.line?" عند السطر <b>"+cfg.line+"</b> أو السطر الذي قبله":"")+".<br>تأكد من الفواصل <b>,</b> في آخر كل سطر، وأن كل قيمة بين علامتي تنصيص \"\".";}
+    else if(!navigator.onLine){t="📡 لا يوجد اتصال بالإنترنت";d="تأكد من الاتصال وحاول مرة أخرى.";}
+    else if(other){t="⚠️ تعذّر تشغيل التطبيق";d="حدث خطأ أثناء التحميل. أعد المحاولة، وإذا تكرر الخطأ تواصل معنا.";}
+    else{t="⏳ استغرق التحميل وقتاً أطول من المعتاد";d="غالباً الاتصال بطيء. أعد المحاولة.";}
     var info=(cfg||other)?'<code dir="ltr" style="display:block;margin-top:10px;font-size:11px;opacity:.7;word-break:break-all">'+((cfg||other).msg.replace(/[<>&]/g,""))+'</code>':"";
     var box=document.createElement("div");box.id="bootErr";
     box.style.cssText="max-width:340px;margin:18px auto 0;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(127,127,127,.35);text-align:center;line-height:1.8;font-size:14px";
@@ -120,7 +120,7 @@
     (ld.querySelector(".splash")||ld).appendChild(box);
   }
   setTimeout(show,12000);
-  /* لما ينزل تحديث جديد: إعادة تحميل مرة وحدة عشان تشتغل النسخة الجديدة على طول */
+  /* reload once on new version */
   try{if("serviceWorker"in navigator){var had=!!navigator.serviceWorker.controller,rl=false;navigator.serviceWorker.addEventListener("controllerchange",function(){if(had&&!rl){rl=true;location.reload()}})}}catch(_){}
   window.addEventListener("error",function(e){if(e&&/firebase-config\.js/.test(e.filename||""))setTimeout(show,300)},true);
 })();
