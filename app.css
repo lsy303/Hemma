@@ -90,3 +90,4 @@
 
 .hm-zoom{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line,rgba(0,0,0,.12))}
 html.hm-big,html.hm-big body{height:auto;overflow-y:auto}.hm-big .app{height:auto;min-height:100%}.hm-big .board{flex:none;overflow-y:visible;align-items:start}.hm-big .col{min-height:0}.hm-big .tasks{flex:none;overflow:visible}
+.cele.show .card{pointer-events:auto;cursor:pointer}
